@@ -1,0 +1,35 @@
+type Order @entity {
+  id: ID!
+  owner: User!
+  startTime: Int!
+  resolveTime: Int!
+  isCall: Boolean!
+  strikePrice: BigInt!
+  settlementPrice: BigInt
+  status: String!
+  placed: BigInt!
+  reward: BigDecimal!
+  result: Int
+  buyTxHash: Bytes!
+  buyTimestamp: Int!
+  resolveTxHash: Bytes
+  resolveTimestamp: Int
+}
+
+type User @entity {
+  id: ID!
+  hasOpenOrder: Boolean!
+  orders: [Order!] @derivedFrom(field: "owner")
+}
+
+type Contract @entity{
+  id: ID!
+  totalCorrectOrder: Int!
+  totalMissOrder: Int!
+  totalTimeupOrder: Int!
+  totalPending: Int!
+  queryFee: BigInt!
+  payoutRate: BigDecimal!
+  reservedAmount: BigInt!
+  maxUsageAmount: BigDecimal!
+}

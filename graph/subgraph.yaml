@@ -1,0 +1,39 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Contract
+    network: mainnet
+    source:
+      address: "0xd120546fd587fbB3d82E7e0aD5b467BE276c8b27"
+      abi: Contract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - OrderPlaced
+        - OrderResolved
+        - OwnershipTransferred
+        # - _setOrderFee
+        # - _setMinDuration
+        # - _setMaxOrderValue
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: OrderPlaced(uint256,indexed address,uint64,bool,uint256,uint256,uint256)
+          handler: handleOrderPlaced
+        - event: OrderResolved(uint256,uint8,uint256)
+          handler: handleOrderResolved
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+      # callHandlers:
+      #   - function: _setOrderFee(uint256)
+      #     handler: handleSetOrderFee
+      #   - function: _setMinDuration(uint256)
+      #     handler: handleSetMinDuration
+      #   - function: _setMaxOrderValue(uint256)
+      #     handler: handleSetMaxOrderValue
+      file: ./src/mapping.ts
